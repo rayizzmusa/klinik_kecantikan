@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Border Login Form</title>
+    <!-- Custom CSS Link -->
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <div class="box">
+      <div class="border-line"></div>
+      <form action="adminlogin.php" method="post">
+        <h2>LOGIN ADMIN</h2>
+        <div class="input-box">
+          <input name="username" type="text" required="required" />
+          <span>Username</span>
+          <i></i>
+        </div>
+        <div class="input-box">
+          <input name="password" type="password" required="required" />
+          <span>Password</span>
+          <i></i>
+        </div>
+        <input type="submit" value="Login" class="btn" />
+      </form>
+    </div>
+  </body>
+</html>
