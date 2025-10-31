@@ -1,11 +1,19 @@
+<?php
+$service = $_GET['service'];
+$time = $_GET['time'];
+$name = $_GET['name'];
+?>
+
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pembayaran - Klinik Kecantikan Merati</title>
     <link rel="stylesheet" href="style_payment.css">
 </head>
+
 <body>
     <div id="payment" class="page active">
         <header>
@@ -20,13 +28,9 @@
         </section>
 
         <section>
-            <h2>Pilih Metode Pembayaran</h2>
             <div class="payment-methods">
                 <button class="payment-method-btn" onclick="selectPayment('E-Wallet')">
-                    💰 E-Wallet
-                </button>
-                <button class="payment-method-btn" onclick="selectPayment('Virtual Account')">
-                    🏦 Virtual Account
+                    💰 Bayar
                 </button>
             </div>
         </section>
@@ -46,6 +50,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const service = urlParams.get('service');
         const time = urlParams.get('time');
+        const name = urlParams.get('name');
 
         document.getElementById('service-detail').textContent = `Layanan: ${service || 'Tidak ada'}`;
         document.getElementById('time-detail').textContent = `Waktu: ${time || 'Tidak ada'}`;
@@ -53,10 +58,13 @@
         function selectPayment(method) {
             const paymentInfo = document.getElementById('payment-info');
             paymentInfo.style.display = 'block';
-            
+
             // Smooth scroll to payment info
             setTimeout(() => {
-                paymentInfo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                paymentInfo.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
             }, 100);
         }
 
@@ -64,9 +72,9 @@
             const button = event.target;
             button.innerHTML = '<span class="loading"></span> Processing...';
             button.disabled = true;
-            
+
             setTimeout(() => {
-                window.location.href = `invoice.php?service=${encodeURIComponent(service)}&time=${encodeURIComponent(time)}&name=${encodeURIComponent(name)}`;
+                window.location.href = 'invoice.php?service=' + encodeURIComponent(service) + '&time=' + encodeURIComponent(time) + '&name=' + encodeURIComponent(name);
             }, 1500);
         }
 
@@ -75,4 +83,5 @@
         }
     </script>
 </body>
+
 </html>

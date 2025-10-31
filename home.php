@@ -1,4 +1,5 @@
 <?php
+include 'koneksi.php';
 session_start();
 if (!isset($_SESSION['username']) && !isset($_SESSION['nama'])) {
     header("Location: logins.php");
@@ -6,6 +7,27 @@ if (!isset($_SESSION['username']) && !isset($_SESSION['nama'])) {
 }
 $username = $_SESSION['username'];
 $name = $_SESSION['nama'];
+
+$sql = "select * from treatment where layanan='Treatment Acne' and hapus=0";
+$data = mysqli_query($conn, $sql);
+$fdata = [];
+while ($row = mysqli_fetch_assoc($data)) {
+    $fdata[] = $row;
+}
+
+$sql = "select * from treatment where layanan='Hair Treatment' and hapus=0";
+$data = mysqli_query($conn, $sql);
+$fdata1 = [];
+while ($row = mysqli_fetch_assoc($data)) {
+    $fdata1[] = $row;
+}
+
+$sql = "select * from treatment where layanan='Facial' and hapus=0";
+$data = mysqli_query($conn, $sql);
+$fdata2 = [];
+while ($row = mysqli_fetch_assoc($data)) {
+    $fdata2[] = $row;
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -40,37 +62,31 @@ $name = $_SESSION['nama'];
             <div class="service">
                 <h3>Treatment Acne</h3>
                 <p>Perawatan jerawat efektif untuk membersihkan dan merejuvenasi kulit Anda.</p>
+                <p><b>Rp. 250.000,00</b></p>
                 <div class="schedule">
-                    <button onclick="selectService('Treatment Acne', '08:00', '<?php echo $name ?>')">08:00</button>
-                    <button onclick="selectService('Treatment Acne', '11:00', '<?php echo $name ?>')">11:00</button>
-                    <button onclick="selectService('Treatment Acne', '13:00', '<?php echo $name ?>')">13:00</button>
-                    <button onclick="selectService('Treatment Acne', '15:00', '<?php echo $name ?>')">15:00</button>
-                    <button onclick="selectService('Treatment Acne', '17:00', '<?php echo $name ?>')">17:00</button>
-                    <button onclick="selectService('Treatment Acne', '19:00', '<?php echo $name ?>')">19:00</button>
+                    <?php foreach ($fdata as $datas): ?>
+                        <button onclick="selectService('<?php echo $datas['layanan'] ?>', '<?php echo $datas['jam'] ?>', '<?php echo $name ?>')"><?php echo $datas['jam'] ?></button>
+                    <?php endforeach; ?>
                 </div>
             </div>
             <div class="service">
                 <h3>Hair Treatment</h3>
                 <p>Revitalisasi rambut Anda dengan perawatan yang menyegarkan.</p>
+                <p><b>Rp. 100.000,00</b></p>
                 <div class="schedule">
-                    <button onclick="selectService('Hair Treatment', '08:00', '<?php echo $name ?>')">08:00</button>
-                    <button onclick="selectService('Hair Treatment', '11:00', '<?php echo $name ?>')">11:00</button>
-                    <button onclick="selectService('Hair Treatment', '13:00', '<?php echo $name ?>')">13:00</button>
-                    <button onclick="selectService('Hair Treatment', '15:00', '<?php echo $name ?>')">15:00</button>
-                    <button onclick="selectService('Hair Treatment', '17:00', '<?php echo $name ?>')">17:00</button>
-                    <button onclick="selectService('Hair Treatment', '19:00', '<?php echo $name ?>')">19:00</button>
+                    <?php foreach ($fdata1 as $datas1): ?>
+                        <button onclick="selectService('<?php echo $datas1['layanan'] ?>', '<?php echo $datas1['jam'] ?>', '<?php echo $name ?>')"><?php echo $datas1['jam'] ?></button>
+                    <?php endforeach; ?>
                 </div>
             </div>
             <div class="service">
                 <h3>Facial</h3>
                 <p>Perawatan wajah yang menenangkan untuk kulit yang bersinar.</p>
+                <p><b>Rp. 150.000,00</b></p>
                 <div class="schedule">
-                    <button onclick="selectService('Facial', '08:00', '<?php echo $name ?>')">08:00</button>
-                    <button onclick="selectService('Facial', '11:00', '<?php echo $name ?>')">11:00</button>
-                    <button onclick="selectService('Facial', '13:00', '<?php echo $name ?>')">13:00</button>
-                    <button onclick="selectService('Facial', '15:00', '<?php echo $name ?>')">15:00</button>
-                    <button onclick="selectService('Facial', '17:00', '<?php echo $name ?>')">17:00</button>
-                    <button onclick="selectService('Facial', '19:00', '<?php echo $name ?>')">19:00</button>
+                    <?php foreach ($fdata2 as $datas): ?>
+                        <button onclick="selectService('<?php echo $datas['layanan'] ?>', '<?php echo $datas['jam'] ?>', '<?php echo $name ?>')"><?php echo $datas['jam'] ?></button>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
@@ -84,7 +100,7 @@ $name = $_SESSION['nama'];
 
     <script>
         function selectService(service, time, name) {
-            window.location.href = `payment.html?service=${encodeURIComponent(service)}&time=${encodeURIComponent(time)}&name=${encodeURIComponent(name)}`;
+            window.location.href = `payment.php?service=${encodeURIComponent(service)}&time=${encodeURIComponent(time)}&name=${encodeURIComponent(name)}`;
         }
 
         function logout() {

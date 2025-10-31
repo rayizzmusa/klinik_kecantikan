@@ -1,6 +1,6 @@
 <?php
 $servername = "localhost";
-$database = "klinik";
+$database = "klinik_kecantikan";
 $username = "root";
 $password = "";
 
