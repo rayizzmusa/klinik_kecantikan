@@ -2,6 +2,7 @@
 $service = $_GET['service'];
 $time = $_GET['time'];
 $name = $_GET['name'];
+
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +41,12 @@ $name = $_GET['name'];
             <p><strong>Bank:</strong> BRI</p>
             <p><strong>Nomor Rekening:</strong> 1234567890123</p>
             <p><strong>Atas Nama:</strong> Klinik Merati</p>
-            <button class="success-btn" onclick="confirmPayment()">✓ Konfirmasi Pembayaran</button>
+            <form action="payment_proccess.php" method="POST">
+                <input type="hidden" name="service" value="<?php echo htmlspecialchars($service); ?>">
+                <input type="hidden" name="time" value="<?php echo htmlspecialchars($time); ?>">
+                <input type="hidden" name="name" value="<?php echo htmlspecialchars($name); ?>">
+                <button type="submit" class="success-btn">✓ Konfirmasi Pembayaran</button>
+            </form>
         </section>
 
         <button class="back-button" onclick="window.location.href='home.php'">← Kembali</button>
@@ -68,15 +74,33 @@ $name = $_GET['name'];
             }, 100);
         }
 
-        function confirmPayment() {
-            const button = event.target;
-            button.innerHTML = '<span class="loading"></span> Processing...';
-            button.disabled = true;
+        // function confirmPayment() {
+        //     const button = event.target;
+        //     button.innerHTML = '<span class="loading"></span> Processing...';
+        //     button.disabled = true;
 
-            setTimeout(() => {
-                window.location.href = 'invoice.php?service=' + encodeURIComponent(service) + '&time=' + encodeURIComponent(time) + '&name=' + encodeURIComponent(name);
-            }, 1500);
-        }
+        //     setTimeout(() => {
+        //         window.location.href = 'payment_proccess.php?service=' + encodeURIComponent(service) + '&time=' + encodeURIComponent(time) + '&name=' + encodeURIComponent(name);
+        //     }, 1500);
+        // }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('form');
+            const button = form.querySelector('.success-btn');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // stop dulu pengiriman form
+
+                // ubah tampilan tombol jadi loading
+                button.innerHTML = '<span class="loading"></span> Processing...';
+                button.disabled = true;
+
+                // tunggu 1,5 detik, baru submit form beneran
+                setTimeout(() => {
+                    form.submit(); // kirim POST ke payment_proccess.php
+                }, 1500);
+            });
+        });
 
         function goBack() {
             window.location.href = 'home.html';

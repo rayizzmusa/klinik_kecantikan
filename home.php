@@ -8,27 +8,22 @@ if (!isset($_SESSION['username']) && !isset($_SESSION['nama'])) {
 $username = $_SESSION['username'];
 $name = $_SESSION['nama'];
 
-$sql = "select * from treatment where layanan='Treatment Acne' and hapus=0";
-$data = mysqli_query($conn, $sql);
-$fdata = [];
-while ($row = mysqli_fetch_assoc($data)) {
-    $fdata[] = $row;
-}
+$layananList = ['Treatment Acne', 'Hair Treatment', 'Facial'];
+$dataLayanan = [];
 
-$sql = "select * from treatment where layanan='Hair Treatment' and hapus=0";
-$data = mysqli_query($conn, $sql);
-$fdata1 = [];
-while ($row = mysqli_fetch_assoc($data)) {
-    $fdata1[] = $row;
-}
+foreach ($layananList as $layanan) {
+    $sql = "SELECT * FROM treatment WHERE layanan = '$layanan' AND hapus = 0";
+    $result = mysqli_query($conn, $sql);
+    $rows = [];
 
-$sql = "select * from treatment where layanan='Facial' and hapus=0";
-$data = mysqli_query($conn, $sql);
-$fdata2 = [];
-while ($row = mysqli_fetch_assoc($data)) {
-    $fdata2[] = $row;
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rows[] = $row;
+    }
+
+    $dataLayanan[$layanan] = $rows;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -64,8 +59,10 @@ while ($row = mysqli_fetch_assoc($data)) {
                 <p>Perawatan jerawat efektif untuk membersihkan dan merejuvenasi kulit Anda.</p>
                 <p><b>Rp. 250.000,00</b></p>
                 <div class="schedule">
-                    <?php foreach ($fdata as $datas): ?>
-                        <button onclick="selectService('<?php echo $datas['layanan'] ?>', '<?php echo $datas['jam'] ?>', '<?php echo $name ?>')"><?php echo $datas['jam'] ?></button>
+                    <?php foreach ($dataLayanan['Treatment Acne'] as $item): ?>
+                        <button onclick="selectService('<?php echo $item['layanan'] ?>', '<?php echo $item['jam'] ?>', '<?php echo $name ?>')">
+                            <?php echo $item['jam'] ?>
+                        </button>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -74,8 +71,10 @@ while ($row = mysqli_fetch_assoc($data)) {
                 <p>Revitalisasi rambut Anda dengan perawatan yang menyegarkan.</p>
                 <p><b>Rp. 100.000,00</b></p>
                 <div class="schedule">
-                    <?php foreach ($fdata1 as $datas1): ?>
-                        <button onclick="selectService('<?php echo $datas1['layanan'] ?>', '<?php echo $datas1['jam'] ?>', '<?php echo $name ?>')"><?php echo $datas1['jam'] ?></button>
+                    <?php foreach ($dataLayanan['Hair Treatment'] as $item): ?>
+                        <button onclick="selectService('<?php echo $item['layanan'] ?>', '<?php echo $item['jam'] ?>', '<?php echo $name ?>')">
+                            <?php echo $item['jam'] ?>
+                        </button>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -84,8 +83,10 @@ while ($row = mysqli_fetch_assoc($data)) {
                 <p>Perawatan wajah yang menenangkan untuk kulit yang bersinar.</p>
                 <p><b>Rp. 150.000,00</b></p>
                 <div class="schedule">
-                    <?php foreach ($fdata2 as $datas): ?>
-                        <button onclick="selectService('<?php echo $datas['layanan'] ?>', '<?php echo $datas['jam'] ?>', '<?php echo $name ?>')"><?php echo $datas['jam'] ?></button>
+                    <?php foreach ($dataLayanan['Facial'] as $item): ?>
+                        <button onclick="selectService('<?php echo $item['layanan'] ?>', '<?php echo $item['jam'] ?>', '<?php echo $name ?>')">
+                            <?php echo $item['jam'] ?>
+                        </button>
                     <?php endforeach; ?>
                 </div>
             </div>
