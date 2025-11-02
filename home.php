@@ -43,7 +43,7 @@ foreach ($layananList as $layanan) {
                 </button>
             </div>
             <h1>✨ Klinik Kecantikan Merati</h1>
-            <p>Tujuan Anda untuk kecantikan dan kesejahteraan</p>
+            <p>Selamat Datang <?php echo $name ?> !!</p>
         </header>
 
         <section id="about-us">
@@ -65,6 +65,11 @@ foreach ($layananList as $layanan) {
                         </button>
                     <?php endforeach; ?>
                 </div>
+                <?php if ($_SESSION['role'] === 'admin'): ?>
+                    <div class="admin">
+                        <button onclick="window.location.href = 'edit_jadwal.php?service=Treatment Acne'">Edit Jam Layanan</button>
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="service">
                 <h3>Hair Treatment</h3>
@@ -77,6 +82,11 @@ foreach ($layananList as $layanan) {
                         </button>
                     <?php endforeach; ?>
                 </div>
+                <?php if ($_SESSION['role'] === 'admin'): ?>
+                    <div class="admin">
+                        <button onclick="window.location.href = 'edit_jadwal.php?service=Hair Treatment'">Edit Jam Layanan</button>
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="service">
                 <h3>Facial</h3>
@@ -89,6 +99,11 @@ foreach ($layananList as $layanan) {
                         </button>
                     <?php endforeach; ?>
                 </div>
+                <?php if ($_SESSION['role'] === 'admin'): ?>
+                    <div class="admin">
+                        <button onclick="window.location.href = 'edit_jadwal.php?service=Facial'">Edit Jam Layanan</button>
+                    </div>
+                <?php endif; ?>
             </div>
         </section>
 

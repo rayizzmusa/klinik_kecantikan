@@ -13,6 +13,7 @@ $user = mysqli_fetch_assoc($result);
 if ($user && mysqli_num_rows($result) > 0) {
     $_SESSION['username'] = $user['username'];
     $_SESSION['nama'] = $user['nama'];
+    $_SESSION['role'] = $user['role'];
     header("Location: home.php");
 } else {
     echo "<script>alert('Login gagal: Username atau password salah.'); window.location.href='logins.php';</script>";

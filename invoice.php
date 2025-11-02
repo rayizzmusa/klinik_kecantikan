@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION['username']) && !isset($_SESSION['nama'])) {
+    header("Location: logins.php");
+    exit();
+}
 $service = $_GET['service'];
 $name = $_GET['name'];
 $time = $_GET['time'];

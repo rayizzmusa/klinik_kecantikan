@@ -1,6 +1,10 @@
 <?php
 include "koneksi.php";
 session_start();
+if (!isset($_SESSION['username']) && !isset($_SESSION['nama'])) {
+    header("Location: logins.php");
+    exit();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $service = $_POST["service"];
