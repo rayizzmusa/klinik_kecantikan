@@ -12,7 +12,7 @@ $layananList = ['Treatment Acne', 'Hair Treatment', 'Facial'];
 $dataLayanan = [];
 
 foreach ($layananList as $layanan) {
-    $sql = "SELECT * FROM treatment WHERE layanan = '$layanan' AND hapus = 0";
+    $sql = "SELECT * FROM treatment WHERE layanan = '$layanan' AND hapus = 0 order by jam asc";
     $result = mysqli_query($conn, $sql);
     $rows = [];
 

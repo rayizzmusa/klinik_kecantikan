@@ -7,6 +7,14 @@ if (!isset($_SESSION['username']) && !isset($_SESSION['nama'])) {
 $service = $_GET['service'];
 $name = $_GET['name'];
 $time = $_GET['time'];
+
+if ($service == 'Treatment Acne') {
+    $harga = "Rp. 250.000";
+} else if ($service == 'Hair Treatment') {
+    $harga = "Rp. 100.000";
+} else {
+    $harga = "Rp. 150.000";
+}
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +42,7 @@ $time = $_GET['time'];
             <p><strong>Pelanggan:</strong> <?php echo htmlspecialchars($name); ?></p>
             <p><strong>Layanan:</strong> <?php echo htmlspecialchars($service); ?></p>
             <p><strong>Waktu:</strong> <?php echo htmlspecialchars($time); ?></p>
-            <p><strong>Total Pembayaran:</strong> Rp 250.000</p>
+            <p><strong>Total Pembayaran:</strong> <?php echo htmlspecialchars($harga); ?></p>
             <span>Terimakasih telah menggunakan layanan kami, <b>Sampai Jumpa Kembali &#128522;</b></span>
         </section>
 

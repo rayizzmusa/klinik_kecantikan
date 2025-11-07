@@ -8,6 +8,13 @@ $service = $_GET['service'];
 $time = $_GET['time'];
 $name = $_GET['name'];
 
+if ($service == 'Treatment Acne') {
+    $harga = "Rp. 250.000";
+} else if ($service == 'Hair Treatment') {
+    $harga = "Rp. 100.000";
+} else {
+    $harga = "Rp. 150.000";
+}
 ?>
 
 <!DOCTYPE html>
@@ -46,6 +53,7 @@ $name = $_GET['name'];
             <p><strong>Bank:</strong> BRI</p>
             <p><strong>Nomor Rekening:</strong> 1234567890123</p>
             <p><strong>Atas Nama:</strong> Klinik Merati</p>
+            <p><strong>Total:</strong> <?php echo htmlspecialchars($harga); ?></p>
             <form action="payment_proccess.php" method="POST">
                 <input type="hidden" name="service" value="<?php echo htmlspecialchars($service); ?>">
                 <input type="hidden" name="time" value="<?php echo htmlspecialchars($time); ?>">
