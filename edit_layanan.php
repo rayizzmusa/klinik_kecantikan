@@ -6,42 +6,31 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
     exit();
 }
 
-$service = isset($_GET['service']) ? htmlspecialchars($_GET['service']) : '';
-
-$jam = [];
-$sql = "SELECT a.*, b.layanan FROM treatment as a inner join master_treatment as b on a.id_layanan = b.id  WHERE a.id_layanan=\"$service\" AND a.hapus=0 order by jam asc";
+$layanan = [];
+$sql = "select* from master_treatment where hapus=0";
 $result = mysqli_query($conn, $sql);
 $ndata = mysqli_num_rows($result);
 if ($ndata > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
-        $jam[] = $row;
+        $layanan[] = $row;
     }
 } else {
-    $jam[] = ['id' => 0, 'jam' => 'Tidak ada jadwal tersedia'];
-}
+    $layanan[] = ['id' => 0, 'layanan' => 'Tidak ada jadwal tersedia'];
+} 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['service'] === $service) {
-    $jam = $_POST['time'];
-    $service = $_POST['service'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['layanan'])) {
+    $layanan = $_POST['layanan'];
+    $harga = $_POST['harga'];
+    $deskripsi = $_POST['deskripsi'];
 
-    $jams = "$jam:00";
-
-    if ($service == 'Treatment Acne') {
-        $harga = "250.000";
-    } else if ($service == 'Hair Treatment') {
-        $harga = "100.000";
-    } else {
-        $harga = "150.000";
-    }
-
-    $sql = "select * from treatment where jam=\"$jams\" and layanan=\"$service\" and hapus=0";
+    $sql = "select * from master_treatment where harga=\"$harga\" and layanan=\"$layanan\" and hapus=0";
     $result = mysqli_query($conn, $sql);
     $ndata = mysqli_num_rows($result);
     if ($ndata == 0) {
-        $sql = "insert into treatment (layanan, harga, jam, hapus) values ('$service', '$harga', '$jams', '0')";
+        $sql = "insert into master_treatment (layanan, harga, hapus, deskripsi) values ('$layanan', '$harga','0', '$deskripsi')";
 
         if (mysqli_query($conn, $sql)) {
-            header("location: edit_jadwal.php?service=$service");
+            header("location: edit_layanan.php");
             exit();
         } else {
             echo "gagal: "  . mysqli_error($conn);
@@ -52,14 +41,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['service'] === $service) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $id = $_POST['id'];
 
-    $sql = "select * from treatment where id=\"$id\" and hapus=0";
+    $sql = "select * from master_treatment where id=\"$id\" and hapus=0";
     $result = mysqli_query($conn, $sql);
     $ndata = mysqli_num_rows($result);
     if ($ndata > 0) {
-        $sql = "update treatment set hapus=1 where id=\"$id\"";
+        $sql = "update master_treatment set hapus=1 where id=\"$id\"";
 
         if (mysqli_query($conn, $sql)) {
-            header("location: edit_jadwal.php?service=$service");
+            header("location: edit_layanan.php");
             exit();
         } else {
             echo "hapus gagal: "  . mysqli_error($conn);
@@ -85,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
             gap: 15px;
         }
 
-        input[type="time"] {
+        input[type="text"] {
             width: 100%;
             padding: 15px;
             border: 2px solid #e91e63;
@@ -136,16 +125,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     <div id="payment" class="page active">
         <header>
             <h1>Klinik Kecantikan Merati</h1>
-            <p>Edit Jam Layanan <strong><?= $layanan ?></strong></p>
+            <p>Edit Layanan</p>
         </header>
 
         <section>
             <h2>Jadwal Layanan Aktif</h2>
 
             <?php if ($ndata > 0): ?>
-                <?php foreach ($jam as $j): ?>
+                <?php foreach ($layanan as $j): ?>
                     <div class="jam-item">
-                        <span><?= htmlspecialchars($j['jam']); ?></span>
+                        <span><?= htmlspecialchars($j['layanan']); ?> - Rp. <?= $j['harga']?></span>
                         <form action="" method="POST" style="margin:0;">
                             <input type="hidden" name="id" value="<?= $j['id']; ?>">
                             <button type="submit" class="hapus-btn" title="Hapus jam ini">🗑️</button>
@@ -158,11 +147,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
         </section>
 
         <section>
-            <h2>Tambahkan Jam Baru</h2>
+            <h2>Tambahkan Layanan Baru</h2>
             <form action="" method="POST">
-                <input type="hidden" name="service" value="<?= $service ?>">
-                <input type="time" name="time" step="900" min="06:00" max="22:00" required>
-                <button type="submit" class="success-btn">+ Tambahkan Jam</button>
+                <input type="text" name="layanan" placeholder="Nama Layanan" required/>
+                <input type="text" name="harga" placeholder="Harga" required/>
+                <input type="text" name="deskripsi" placeholder="Deskripsi" required/>
+                <button type="submit" class="success-btn">+ Tambahkan</button>
             </form>
         </section>
         <button class="back-button" onclick="window.location.href='home.php'">← Kembali</button>

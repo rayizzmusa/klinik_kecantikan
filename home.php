@@ -11,37 +11,62 @@ $username = $_SESSION['username'];
 $name = $_SESSION['nama'];
 $role = $_SESSION['role'];
 
-$layananList = ['Treatment Acne', 'Hair Treatment', 'Facial'];
-$dataLayanan = [];
-
-foreach ($layananList as $layanan) {
-    $sql = "SELECT * FROM treatment WHERE layanan = '$layanan' AND hapus = 0 order by jam asc";
-    $result = mysqli_query($conn, $sql);
-    $rows = [];
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        $rows[] = $row;
-    }
-
-    $dataLayanan[$layanan] = $rows;
-}
-
-$sql = "select a.* , b.nama from transaction as a inner join user as b on a.id_user = b.id where a.hapus=0 order by a.id asc";
+$layanan = [];
+$id_layanan = [];
+$sql = "select * from master_treatment where hapus=0 order by id asc";
 $result = mysqli_query($conn, $sql);
-$data = [];
-while ($fdata = mysqli_fetch_assoc($result)) {
-    extract($fdata);
-    if ($layanan == 'Treatment Acne') {
-        $harga = "Rp. 250.000";
-    } else if ($layanan == 'Hair Treatment') {
-        $harga = "Rp. 100.000";
-    } else {
-        $harga = "Rp. 150.000";
+while ($row = mysqli_fetch_assoc($result)){
+    $ids = $row['id'];
+    $id_layanan[$ids] = $ids;
+    $layanan[] = $row;
+}
+// print_r($id_layanan);
+// exit;
+
+$semuaLayanan = [];
+
+foreach ($id_layanan as $id){
+    $sql = "select * from treatment where id_layanan='$id' and hapus=0 order by jam asc";
+    $result = mysqli_query($conn, $sql);
+    $dataLayanan = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $dataLayanan[] = $row;
     }
 
-    $fdata['harga'] = $harga;
-    $data[] = $fdata;
+    $semuaLayanan[$id] = $dataLayanan;
 }
+
+// $layananList = ['Treatment Acne', 'Hair Treatment', 'Facial'];
+// $dataLayanan = [];
+
+// foreach ($layananList as $layanan) {
+//     $sql = "SELECT * FROM treatment WHERE layanan = '$layanan' AND hapus = 0 order by jam asc";
+//     $result = mysqli_query($conn, $sql);
+//     $rows = [];
+
+//     while ($row = mysqli_fetch_assoc($result)) {
+//         $rows[] = $row;
+//     }
+
+//     $dataLayanan[$layanan] = $rows;
+// }
+
+// $sql = "select a.* , b.nama from transaction as a inner join user as b on a.id_user = b.id where a.hapus=0 order by a.id asc";
+// $result = mysqli_query($conn, $sql);
+// $data = [];
+// while ($fdata = mysqli_fetch_assoc($result)) {
+//     extract($fdata);
+//     if ($layanan == 'Treatment Acne') {
+//         $harga = "Rp. 250.000";
+//     } else if ($layanan == 'Hair Treatment') {
+//         $harga = "Rp. 100.000";
+//     } else {
+//         $harga = "Rp. 150.000";
+//     }
+
+//     $fdata['harga'] = $harga;
+//     $data[] = $fdata;
+// }
 ?>
 
 <!DOCTYPE html>
@@ -52,6 +77,7 @@ while ($fdata = mysqli_fetch_assoc($result)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Klinik Kecantikan Merati</title>
     <link rel="stylesheet" href="style_home.css">
+    <link rel="icon" href="logo.png" type="image/png">
 </head>
 
 <body>
@@ -75,60 +101,48 @@ while ($fdata = mysqli_fetch_assoc($result)) {
 
         <section id="services">
             <h2>Layanan</h2>
-            <div class="service">
-                <h3>Treatment Acne</h3>
-                <p>Perawatan jerawat efektif untuk membersihkan dan merejuvenasi kulit Anda.</p>
-                <p><b>Rp. 250.000,00</b></p>
-                <div class="schedule">
-                    <?php foreach ($dataLayanan['Treatment Acne'] as $item): ?>
-                        <button onclick="selectService('<?php echo $item['layanan'] ?>', '<?php echo $item['jam'] ?>', '<?php echo $name ?>')">
-                            <?php echo $item['jam'] ?>
-                        </button>
-                    <?php endforeach; ?>
+           <?php foreach ($layanan as $data): ?>
+                <div class="service">
+                    <h3><?= $data['layanan'] ?></h3>
+                    <p><?= $data['deskripsi'] ?></p>
+                    <p><b>Rp. <?= $data['harga'] ?></b></p>
+
+                    <?php
+                    $id_layanan = $data['id']; // ambil id layanan saat ini
+                    $treatments = isset($semuaLayanan[$id_layanan]) ? $semuaLayanan[$id_layanan] : [];
+                    ?>
+
+                    <?php if (!empty($treatments)): ?>
+                        <div class="schedule">
+                            <?php foreach ($treatments as $item): ?>
+                                <button onclick="selectService('<?= $item['id_layanan'] ?>', '<?= $item['jam'] ?>', '<?= $data['layanan'] ?>')">
+                                    <?= $item['jam'] ?>
+                                </button>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <p><i>Belum ada jadwal</i></p>
+                    <?php endif; ?>
+
+                    
+
+                    <?php if ($_SESSION['role'] === 'admin'): ?>
+                        <div class="admin">
+                            <button onclick="window.location.href = 'edit_jadwal.php?service=<?= $data['id'] ?>'">Edit Jam Layanan</button>
+                        </div>
+                    <?php endif; ?>
                 </div>
-                <?php if ($_SESSION['role'] === 'admin'): ?>
-                    <div class="admin">
-                        <button onclick="window.location.href = 'edit_jadwal.php?service=Treatment Acne'">Edit Jam Layanan</button>
-                    </div>
-                <?php endif; ?>
-            </div>
-            <div class="service">
-                <h3>Hair Treatment</h3>
-                <p>Revitalisasi rambut Anda dengan perawatan yang menyegarkan.</p>
-                <p><b>Rp. 100.000,00</b></p>
-                <div class="schedule">
-                    <?php foreach ($dataLayanan['Hair Treatment'] as $item): ?>
-                        <button onclick="selectService('<?php echo $item['layanan'] ?>', '<?php echo $item['jam'] ?>', '<?php echo $name ?>')">
-                            <?php echo $item['jam'] ?>
-                        </button>
-                    <?php endforeach; ?>
-                </div>
-                <?php if ($_SESSION['role'] === 'admin'): ?>
-                    <div class="admin">
-                        <button onclick="window.location.href = 'edit_jadwal.php?service=Hair Treatment'">Edit Jam Layanan</button>
-                    </div>
-                <?php endif; ?>
-            </div>
-            <div class="service">
-                <h3>Facial</h3>
-                <p>Perawatan wajah yang menenangkan untuk kulit yang bersinar.</p>
-                <p><b>Rp. 150.000,00</b></p>
-                <div class="schedule">
-                    <?php foreach ($dataLayanan['Facial'] as $item): ?>
-                        <button onclick="selectService('<?php echo $item['layanan'] ?>', '<?php echo $item['jam'] ?>', '<?php echo $name ?>')">
-                            <?php echo $item['jam'] ?>
-                        </button>
-                    <?php endforeach; ?>
-                </div>
-                <?php if ($_SESSION['role'] === 'admin'): ?>
-                    <div class="admin">
-                        <button onclick="window.location.href = 'edit_jadwal.php?service=Facial'">Edit Jam Layanan</button>
-                    </div>
-                <?php endif; ?>
-            </div>
+            <?php endforeach; ?>
+
+           
             <?php if ($_SESSION['role'] === 'pelanggan'): ?>
                 <div class="schedule">
                     <button onclick="window.location.href = 'riwayat.php?as=<?= $role ?>&gid=<?= $iduser ?>'">Riwayat Transaksi</button>
+                </div>
+            <?php endif; ?>
+            <?php if ($_SESSION['role'] === 'admin'): ?>
+                <div class="admin">
+                    <button onclick="window.location.href = 'edit_layanan.php'">+ Tambahkan Layanan</button>
                 </div>
             <?php endif; ?>
         </section>

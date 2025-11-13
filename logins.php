@@ -15,6 +15,7 @@ if (isset($_SESSION['username'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Klinik Kecantikan Merati</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="logo.png" type="image/png">
 </head>
 
 <body>
