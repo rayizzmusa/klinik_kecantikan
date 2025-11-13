@@ -11,6 +11,7 @@ $result = mysqli_query($conn, $query_sql);
 $user = mysqli_fetch_assoc($result);
 
 if ($user && mysqli_num_rows($result) > 0) {
+    $_SESSION['id'] = $user['id'];
     $_SESSION['username'] = $user['username'];
     $_SESSION['nama'] = $user['nama'];
     $_SESSION['role'] = $user['role'];
