@@ -65,12 +65,13 @@ while ($fdata = mysqli_fetch_assoc($result)) {
             <h1>✨ Klinik Kecantikan Merati</h1>
             <p>Selamat Datang <?php echo $name ?> !!</p>
         </header>
-
-        <section id="about-us">
-            <h2>Tentang Kami</h2>
-            <p>Klinik Merati merupakan klinik kecantikan modern yang berfokus pada perawatan kulit, wajah, dan tubuh dengan mengutamakan keamanan serta hasil yang natural. Menggabungkan teknologi terkini dengan sentuhan profesional dari tenaga ahli berpengalaman, Klinik Merati hadir untuk membantu setiap pelanggan tampil lebih percaya diri dan bersinar dari dalam.</p>
-            <p>Dengan suasana klinik yang nyaman, pelayanan ramah, serta produk perawatan berkualitas tinggi, Klinik Merati berkomitmen memberikan pengalaman kecantikan terbaik bagi setiap individu. Kami percaya bahwa kecantikan sejati bukan hanya tentang penampilan luar, tetapi juga tentang perasaan bahagia dan percaya diri dari dalam diri.</p>
-        </section>
+        <?php if ($_SESSION['role'] === 'pelanggan'): ?>
+            <section id="about-us">
+                <h2>Tentang Kami</h2>
+                <p>Klinik Merati merupakan klinik kecantikan modern yang berfokus pada perawatan kulit, wajah, dan tubuh dengan mengutamakan keamanan serta hasil yang natural. Menggabungkan teknologi terkini dengan sentuhan profesional dari tenaga ahli berpengalaman, Klinik Merati hadir untuk membantu setiap pelanggan tampil lebih percaya diri dan bersinar dari dalam.</p>
+                <p>Dengan suasana klinik yang nyaman, pelayanan ramah, serta produk perawatan berkualitas tinggi, Klinik Merati berkomitmen memberikan pengalaman kecantikan terbaik bagi setiap individu. Kami percaya bahwa kecantikan sejati bukan hanya tentang penampilan luar, tetapi juga tentang perasaan bahagia dan percaya diri dari dalam diri.</p>
+            </section>
+        <?php endif; ?>
 
         <section id="services">
             <h2>Layanan</h2>
