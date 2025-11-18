@@ -60,6 +60,8 @@ while ($fdata = mysqli_fetch_assoc($result)) {
 
     $trans[] = $fdata;
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -152,7 +154,7 @@ while ($fdata = mysqli_fetch_assoc($result)) {
                     <div class="service">
                         <p>Tanggal : <?= $dat['created_at'] ?></p>
                         <p>Pelanggan : <b><?= $dat['nama'] ?></b></p>
-                        <p><?= $dat['layanan'] ?> - <?= $dat['harga'] ?></p>
+                        <p><?= $dat['id_layanan'] ?> - <?= $dat['harga'] ?></p>
                     </div>
                 <?php endforeach; ?>
             </section>
