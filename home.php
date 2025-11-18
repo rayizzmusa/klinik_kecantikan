@@ -15,7 +15,7 @@ $layanan = [];
 $id_layanan = [];
 $sql = "select * from master_treatment where hapus=0 order by id asc";
 $result = mysqli_query($conn, $sql);
-while ($row = mysqli_fetch_assoc($result)){
+while ($row = mysqli_fetch_assoc($result)) {
     $ids = $row['id'];
     $id_layanan[$ids] = $ids;
     $layanan[] = $row;
@@ -25,7 +25,7 @@ while ($row = mysqli_fetch_assoc($result)){
 
 $semuaLayanan = [];
 
-foreach ($id_layanan as $id){
+foreach ($id_layanan as $id) {
     $sql = "select * from treatment where id_layanan='$id' and hapus=0 order by jam asc";
     $result = mysqli_query($conn, $sql);
     $dataLayanan = [];
@@ -51,22 +51,15 @@ foreach ($id_layanan as $id){
 //     $dataLayanan[$layanan] = $rows;
 // }
 
-// $sql = "select a.* , b.nama from transaction as a inner join user as b on a.id_user = b.id where a.hapus=0 order by a.id asc";
-// $result = mysqli_query($conn, $sql);
-// $data = [];
-// while ($fdata = mysqli_fetch_assoc($result)) {
-//     extract($fdata);
-//     if ($layanan == 'Treatment Acne') {
-//         $harga = "Rp. 250.000";
-//     } else if ($layanan == 'Hair Treatment') {
-//         $harga = "Rp. 100.000";
-//     } else {
-//         $harga = "Rp. 150.000";
-//     }
+$trans = [];
+$sql = "select a.* , b.nama, c.harga from transaction as a inner join user as b on a.id_user = b.id inner join treatment as c on a.id_treatment = c.id where a.hapus=0 and c.hapus=0 order by a.id asc";
+$result = mysqli_query($conn, $sql);
+$data = [];
+while ($fdata = mysqli_fetch_assoc($result)) {
+    extract($fdata);
 
-//     $fdata['harga'] = $harga;
-//     $data[] = $fdata;
-// }
+    $trans[] = $fdata;
+}
 ?>
 
 <!DOCTYPE html>
@@ -101,7 +94,7 @@ foreach ($id_layanan as $id){
 
         <section id="services">
             <h2>Layanan</h2>
-           <?php foreach ($layanan as $data): ?>
+            <?php foreach ($layanan as $data): ?>
                 <div class="service">
                     <h3><?= $data['layanan'] ?></h3>
                     <p><?= $data['deskripsi'] ?></p>
@@ -115,7 +108,7 @@ foreach ($id_layanan as $id){
                     <?php if (!empty($treatments)): ?>
                         <div class="schedule">
                             <?php foreach ($treatments as $item): ?>
-                                <button onclick="selectService('<?= $item['id_layanan'] ?>', '<?= $item['jam'] ?>', '<?= $data['layanan'] ?>')">
+                                <button onclick="selectService('<?= $item['id_layanan'] ?>', '<?= $item['jam'] ?>', '<?= $username ?>')">
                                     <?= $item['jam'] ?>
                                 </button>
                             <?php endforeach; ?>
@@ -124,7 +117,6 @@ foreach ($id_layanan as $id){
                         <p><i>Belum ada jadwal</i></p>
                     <?php endif; ?>
 
-                    
 
                     <?php if ($_SESSION['role'] === 'admin'): ?>
                         <div class="admin">
@@ -134,7 +126,6 @@ foreach ($id_layanan as $id){
                 </div>
             <?php endforeach; ?>
 
-           
             <?php if ($_SESSION['role'] === 'pelanggan'): ?>
                 <div class="schedule">
                     <button onclick="window.location.href = 'riwayat.php?as=<?= $role ?>&gid=<?= $iduser ?>'">Riwayat Transaksi</button>
@@ -157,7 +148,7 @@ foreach ($id_layanan as $id){
         <?php else: ?>
             <section id="services">
                 <h2>Daftar Transaksi</h2>
-                <?php foreach ($data as $dat): ?>
+                <?php foreach ($trans as $dat): ?>
                     <div class="service">
                         <p>Tanggal : <?= $dat['created_at'] ?></p>
                         <p>Pelanggan : <b><?= $dat['nama'] ?></b></p>

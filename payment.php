@@ -1,4 +1,5 @@
 <?php
+include "koneksi.php";
 session_start();
 if (!isset($_SESSION['username']) && !isset($_SESSION['nama'])) {
     header("Location: logins.php");
@@ -8,13 +9,11 @@ $service = $_GET['service'];
 $time = $_GET['time'];
 $name = $_GET['name'];
 
-if ($service == 'Treatment Acne') {
-    $harga = "Rp. 250.000";
-} else if ($service == 'Hair Treatment') {
-    $harga = "Rp. 100.000";
-} else {
-    $harga = "Rp. 150.000";
-}
+$sql = "select * from master_treatment where id=\"$service\" and hapus=0";
+$result = mysqli_query($conn, $sql);
+$fdata = mysqli_fetch_assoc($result);
+$layanan = $fdata['layanan'];
+$harga = $fdata['harga'];
 ?>
 
 <!DOCTYPE html>
@@ -68,11 +67,11 @@ if ($service == 'Treatment Acne') {
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const service = urlParams.get('service');
+        const layanan = "<?php echo addslashes($layanan); ?>";
         const time = urlParams.get('time');
         const name = urlParams.get('name');
 
-        document.getElementById('service-detail').textContent = `Layanan: ${service || 'Tidak ada'}`;
+        document.getElementById('service-detail').textContent = `Layanan: ${layanan|| 'Tidak ada'}`;
         document.getElementById('time-detail').textContent = `Waktu: ${time || 'Tidak ada'}`;
 
         function selectPayment(method) {

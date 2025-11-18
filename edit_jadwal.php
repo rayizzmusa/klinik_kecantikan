@@ -7,6 +7,10 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
 }
 
 $service = isset($_GET['service']) ? htmlspecialchars($_GET['service']) : '';
+$sql = "select * from master_treatment where id=\"$service\" and hapus=0";
+$result = mysqli_query($conn, $sql);
+$fdata = mysqli_fetch_assoc($result);
+$layanan = $fdata['layanan'];
 
 $jam = [];
 $sql = "SELECT a.*, b.layanan FROM treatment as a inner join master_treatment as b on a.id_layanan = b.id  WHERE a.id_layanan=\"$service\" AND a.hapus=0 order by jam asc";
@@ -26,19 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['service'] === $service) {
 
     $jams = "$jam:00";
 
-    if ($service == 'Treatment Acne') {
-        $harga = "250.000";
-    } else if ($service == 'Hair Treatment') {
-        $harga = "100.000";
-    } else {
-        $harga = "150.000";
-    }
+    $sql = "select * from master_treatment where id=\"$service\" and hapus=0";
+    $result = mysqli_query($conn, $sql);
+    $fdata = mysqli_fetch_assoc($result);
+    $harga = $fdata['harga'];
 
-    $sql = "select * from treatment where jam=\"$jams\" and layanan=\"$service\" and hapus=0";
+    $sql = "select * from treatment where jam=\"$jams\" and id_layanan=\"$service\" and hapus=0";
     $result = mysqli_query($conn, $sql);
     $ndata = mysqli_num_rows($result);
     if ($ndata == 0) {
-        $sql = "insert into treatment (layanan, harga, jam, hapus) values ('$service', '$harga', '$jams', '0')";
+        $sql = "insert into treatment (id_layanan, harga, jam, hapus) values ('$service', '$harga', '$jams', '0')";
 
         if (mysqli_query($conn, $sql)) {
             header("location: edit_jadwal.php?service=$service");

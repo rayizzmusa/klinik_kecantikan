@@ -1,4 +1,5 @@
 <?php
+include "koneksi.php";
 session_start();
 if (!isset($_SESSION['username']) && !isset($_SESSION['nama'])) {
     header("Location: logins.php");
@@ -8,13 +9,16 @@ $service = $_GET['service'];
 $name = $_GET['name'];
 $time = $_GET['time'];
 
-if ($service == 'Treatment Acne') {
-    $harga = "Rp. 250.000";
-} else if ($service == 'Hair Treatment') {
-    $harga = "Rp. 100.000";
-} else {
-    $harga = "Rp. 150.000";
-}
+$sql = "select * from user where username=\"$name\" and role=\"pelanggan\"";
+$result = mysqli_query($conn, $sql);
+$fdata = mysqli_fetch_assoc($result);
+$nama = $fdata['nama'];
+
+$sql = "select * from master_treatment where id=\"$service\" and hapus=0";
+$result = mysqli_query($conn, $sql);
+$fdata = mysqli_fetch_assoc($result);
+$layanan = $fdata['layanan'];
+$harga = $fdata['harga'];
 ?>
 
 <!DOCTYPE html>
@@ -40,10 +44,10 @@ if ($service == 'Treatment Acne') {
                 Pembayaran Berhasil
             </h2>
             <br /><br />
-            <p><strong>Pelanggan:</strong> <?php echo htmlspecialchars($name); ?></p>
-            <p><strong>Layanan:</strong> <?php echo htmlspecialchars($service); ?></p>
+            <p><strong>Pelanggan:</strong> <?php echo $nama; ?></p>
+            <p><strong>Layanan:</strong> <?php echo $layanan; ?></p>
             <p><strong>Waktu:</strong> <?php echo htmlspecialchars($time); ?></p>
-            <p><strong>Total Pembayaran:</strong> <?php echo htmlspecialchars($harga); ?></p>
+            <p><strong>Total Pembayaran:</strong> <?php echo $harga; ?></p>
             <span>Terimakasih telah menggunakan layanan kami, <b>Sampai Jumpa Kembali &#128522;</b></span>
         </section>
 
