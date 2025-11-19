@@ -58,6 +58,10 @@ $data = [];
 while ($fdata = mysqli_fetch_assoc($result)) {
     extract($fdata);
 
+    $sql2 = "select * from master_treatment where id=\"$id_layanan\" and hapus=0";
+    $result2 = mysqli_query($conn, $sql2);
+    $row = mysqli_fetch_assoc($result2);
+    $fdata['nama_layanan'] = $row['layanan'];
     $trans[] = $fdata;
 }
 
@@ -154,7 +158,7 @@ while ($fdata = mysqli_fetch_assoc($result)) {
                     <div class="service">
                         <p>Tanggal : <?= $dat['created_at'] ?></p>
                         <p>Pelanggan : <b><?= $dat['nama'] ?></b></p>
-                        <p><?= $dat['id_layanan'] ?> - <?= $dat['harga'] ?></p>
+                        <p><?= $dat['nama_layanan'] ?> - <?= $dat['harga'] ?></p>
                     </div>
                 <?php endforeach; ?>
             </section>

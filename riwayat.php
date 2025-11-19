@@ -11,21 +11,13 @@ $role = $_GET['as'];
 
 if ($role == 'pelanggan') {
     $data = [];
-    $sql = "select * from transaction where id_user=\"$iduser\" and hapus=0 order by id asc";
+    $sql = "select a.*, b.harga, b.layanan from transaction as a inner join master_treatment as b on a.id_layanan = b.id where a.id_user=\"$iduser\" and a.hapus=0 and b.hapus=0 order by a.id asc";
     $result = mysqli_query($conn, $sql);
     $ndata = mysqli_num_rows($result);
     if ($ndata > 0) {
         while ($fdata = mysqli_fetch_assoc($result)) {
             extract($fdata);
-            if ($layanan == 'Treatment Acne') {
-                $harga = "Rp. 250.000";
-            } else if ($layanan == 'Hair Treatment') {
-                $harga = "Rp. 100.000";
-            } else {
-                $harga = "Rp. 150.000";
-            }
 
-            $fdata['harga'] = $harga;
             $data[] = $fdata;
         }
     }
