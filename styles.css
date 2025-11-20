@@ -1,326 +1,369 @@
 * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
 
-        /* Animated Background Particles */
-        body::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background-image: 
-                radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px),
-                radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            background-position: 0 0, 25px 25px;
-            animation: moveBackground 20s linear infinite;
-        }
+/* Animated Background Particles */
+body::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background-image:
+        radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-position: 0 0, 25px 25px;
+    animation: moveBackground 20s linear infinite;
+}
 
-        @keyframes moveBackground {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
+@keyframes moveBackground {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
 
-        .page {
-            display: none;
-            opacity: 0;
-            transform: scale(0.9);
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            width: 100%;
-            max-width: 450px;
-        }
+.page {
+    display: none;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    width: 90%; /* Menggunakan persentase untuk lebar */
+    max-width: 450px; /* Lebar maksimum untuk layar besar */
+    margin: 20px; /* Tambahkan margin agar tidak menempel di tepi layar */
+}
 
-        .page.active {
-            display: block;
-            opacity: 1;
-            transform: scale(1);
-            animation: pageEntrance 0.6s ease-out;
-        }
+.page.active {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+    animation: pageEntrance 0.6s ease-out;
+}
 
-        @keyframes pageEntrance {
-            0% {
-                opacity: 0;
-                transform: translateY(30px) scale(0.9);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
+@keyframes pageEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
 
-        header {
-            text-align: center;
-            background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%);
-            color: white;
-            padding: 30px 20px;
-            border-radius: 20px 20px 0 0;
-            box-shadow: 0 10px 40px rgba(233, 30, 99, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
+header {
+    text-align: center;
+    background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%);
+    color: white;
+    padding: 30px 20px;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 10px 40px rgba(233, 30, 99, 0.3);
+    position: relative;
+    overflow: hidden;
+}
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: headerGlow 3s ease-in-out infinite;
-        }
+header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: headerGlow 3s ease-in-out infinite;
+}
 
-        @keyframes headerGlow {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(-20px, -20px); }
-        }
+@keyframes headerGlow {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-20px, -20px); }
+}
 
-        header h1 {
-            color: white;
-            font-size: 2em;
-            margin-bottom: 5px;
-            position: relative;
-            z-index: 1;
-            animation: titleFloat 3s ease-in-out infinite;
-        }
+header h1 {
+    color: white;
+    font-size: 2em;
+    margin-bottom: 5px;
+    position: relative;
+    z-index: 1;
+    animation: titleFloat 3s ease-in-out infinite;
+}
 
-        @keyframes titleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
+@keyframes titleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
 
-        header p {
-            position: relative;
-            z-index: 1;
-            font-size: 1em;
-            opacity: 0.95;
-        }
+header p {
+    position: relative;
+    z-index: 1;
+    font-size: 1em;
+    opacity: 0.95;
+}
 
-        #login-form, #register-form {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 35px;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 1;
-        }
+#login-form, #register-form {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 35px;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+}
 
-        h2 {
-            color: #333;
-            margin-bottom: 25px;
-            text-align: center;
-            font-size: 1.6em;
-            position: relative;
-        }
+h2 {
+    color: #333;
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 1.6em;
+    position: relative;
+}
 
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, #e91e63, #ff6b9d);
-            border-radius: 2px;
-            animation: lineExpand 2s ease-in-out infinite;
-        }
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #e91e63, #ff6b9d);
+    border-radius: 2px;
+    animation: lineExpand 2s ease-in-out infinite;
+}
 
-        @keyframes lineExpand {
-            0%, 100% { width: 60px; }
-            50% { width: 80px; }
-        }
+@keyframes lineExpand {
+    0%, 100% { width: 60px; }
+    50% { width: 80px; }
+}
 
-        input, select {
-            width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            background: white;
-        }
+input, select {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background: white;
+}
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: #e91e63;
-            box-shadow: 0 0 0 4px rgba(233, 30, 99, 0.1);
-            transform: translateY(-2px);
-        }
+input:focus, select:focus {
+    outline: none;
+    border-color: #e91e63;
+    box-shadow: 0 0 0 4px rgba(233, 30, 99, 0.1);
+    transform: translateY(-2px);
+}
 
-        input::placeholder {
-            color: #999;
-        }
+input::placeholder {
+    color: #999;
+}
 
-        button {
-            width: 100%;
-            background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%);
-            color: white;
-            border: none;
-            padding: 13px;
-            font-size: 17px;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
-        }
+button {
+    width: 100%;
+    background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%);
+    color: white;
+    border: none;
+    padding: 13px;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
+}
 
-        button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
 
-        button:hover::before {
-            width: 300px;
-            height: 300px;
-        }
+button:hover::before {
+    width: 300px;
+    height: 300px;
+}
 
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.4);
-        }
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(233, 30, 99, 0.4);
+}
 
-        button:active {
-            transform: translateY(-1px);
-        }
+button:active {
+    transform: translateY(-1px);
+}
 
-        p {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
-        }
+p {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+}
 
-        a {
-            color: #e91e63;
-            text-decoration: none;
-            font-weight: bold;
-            position: relative;
-            transition: color 0.3s ease;
-        }
+a {
+    color: #e91e63;
+    text-decoration: none;
+    font-weight: bold;
+    position: relative;
+    transition: color 0.3s ease;
+}
 
-        a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #e91e63;
-            transition: width 0.3s ease;
-        }
+a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #e91e63;
+    transition: width 0.3s ease;
+}
 
-        a:hover {
-            color: #c2185b;
-        }
+a:hover {
+    color: #c2185b;
+}
 
-        a:hover::after {
-            width: 100%;
-        }
+a:hover::after {
+    width: 100%;
+}
 
-        /* Form Switch Animation */
-        .form-switch-enter {
-            animation: formSlideIn 0.5s ease-out;
-        }
+/* Form Switch Animation */
+.form-switch-enter {
+    animation: formSlideIn 0.5s ease-out;
+}
 
-        .form-switch-exit {
-            animation: formSlideOut 0.5s ease-out;
-        }
+.form-switch-exit {
+    animation: formSlideOut 0.5s ease-out;
+}
 
-        @keyframes formSlideIn {
-            0% {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
+@keyframes formSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
 
-        @keyframes formSlideOut {
-            0% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            100% {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-        }
+@keyframes formSlideOut {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+}
 
-        /* Input Animation */
-        @keyframes inputPulse {
-            0%, 100% {
-                box-shadow: 0 0 0 0 rgba(233, 30, 99, 0.4);
-            }
-            50% {
-                box-shadow: 0 0 0 8px rgba(233, 30, 99, 0);
-            }
-        }
+/* Input Animation */
+@keyframes inputPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(233, 30, 99, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(233, 30, 99, 0);
+    }
+}
 
-        input:focus {
-            animation: inputPulse 1.5s infinite;
-        }
+input:focus {
+    animation: inputPulse 1.5s infinite;
+}
 
-        /* Floating Labels Effect */
-        .input-group {
-            position: relative;
-            margin-bottom: 25px;
-        }
+/* Floating Labels Effect */
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+}
 
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 1.8em;
-            }
+/* 📱 Responsive Design for Mobile First 📱 */
+/* Aturan di luar media query sudah mobile-friendly (width: 90%; margin: 20px; di .page) */
 
-            #login-form, #register-form {
-                padding: 30px 20px;
-            }
+@media (max-width: 480px) {
+    /* Penyesuaian untuk layar yang sangat kecil */
+    .page {
+        width: 95%; /* Lebih lebar di layar kecil */
+        margin: 10px; /* Margin lebih kecil */
+    }
 
-            h2 {
-                font-size: 1.5em;
-            }
-        }
+    header {
+        padding: 25px 15px; /* Padding header lebih kecil */
+        border-radius: 15px 15px 0 0;
+    }
 
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
+    header h1 {
+        font-size: 1.6em; /* Ukuran font header lebih kecil */
+    }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+    #login-form, #register-form {
+        padding: 30px 20px; /* Padding form disesuaikan */
+        border-radius: 0 0 15px 15px;
+    }
+
+    h2 {
+        font-size: 1.4em; /* Ukuran font sub-header lebih kecil */
+    }
+
+    input, select {
+        padding: 10px 12px; /* Padding input lebih kecil */
+        font-size: 14px;
+        border-radius: 10px;
+    }
+
+    button {
+        padding: 12px; /* Padding tombol lebih kecil */
+        font-size: 16px;
+        border-radius: 10px;
+    }
+}
+
+/* Media query yang sudah ada (untuk perangkat yang lebih besar dari mobile) */
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    #login-form, #register-form {
+        padding: 30px 20px;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+}
+
+
+/* Loading Animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
