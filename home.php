@@ -11,6 +11,7 @@ $username = $_SESSION['username'];
 $name = $_SESSION['nama'];
 $role = $_SESSION['role'];
 
+
 $layanan = [];
 $id_layanan = [];
 $sql = "select * from master_treatment where hapus=0 order by id asc";
@@ -114,7 +115,8 @@ while ($fdata = mysqli_fetch_assoc($result)) {
                     <?php if (!empty($treatments)): ?>
                         <div class="schedule">
                             <?php foreach ($treatments as $item): ?>
-                                <button onclick="selectService('<?= $item['id_layanan'] ?>', '<?= $item['jam'] ?>', '<?= $username ?>')">
+
+                                <button onclick="window.location.href = 'payment.php?service=<?= $item['id_layanan'] ?>&time=<?= $item['jam'] ?>&name=<?= $_SESSION['username'] ?>'">
                                     <?= $item['jam'] ?>
                                 </button>
                             <?php endforeach; ?>
@@ -167,7 +169,7 @@ while ($fdata = mysqli_fetch_assoc($result)) {
 
     <script>
         function selectService(service, time, name) {
-            window.location.href = `payment.php?service=${encodeURIComponent(service)}&time=${encodeURIComponent(time)}&name=${encodeURIComponent(name)}`;
+            window.location.href = `payment.php?service=${encodeURIComponent(service)}&time=${encodeURIComponent(time)}&name=${encodeURIComponent(username)}`;
         }
 
         function logout() {
